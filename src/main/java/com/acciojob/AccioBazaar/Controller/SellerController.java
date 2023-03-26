@@ -18,4 +18,8 @@ public class SellerController {
     public String addSeller(@RequestBody SellerRequestDto sellerRequestDto){
        return sellerService.addSeller(sellerRequestDto);
     }
+
+    //get all sellers
+    //get seller by PAN no
+    //find sellers of a particular age
 }

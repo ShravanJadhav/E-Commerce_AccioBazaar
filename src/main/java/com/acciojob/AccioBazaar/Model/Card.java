@@ -2,6 +2,7 @@ package com.acciojob.AccioBazaar.Model;
 
 import com.acciojob.AccioBazaar.Enum.CardType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="card")
 public class Card {
