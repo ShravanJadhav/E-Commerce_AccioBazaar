@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CardInfoDto {
-
-    //private String name;
     private CardType cardType;
     private String cardNo;
 }

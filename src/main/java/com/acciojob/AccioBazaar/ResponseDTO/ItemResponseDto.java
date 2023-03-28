@@ -1,5 +1,6 @@
 package com.acciojob.AccioBazaar.ResponseDTO;
 
+import com.acciojob.AccioBazaar.Enum.ProductCategory;
 import com.acciojob.AccioBazaar.Enum.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductResponseDto {
+public class ItemResponseDto {
     private String productName;
     private int price;
-    private int quantity;
+    private ProductCategory productCategory;
     private ProductStatus productStatus;
 }
