@@ -11,6 +11,8 @@ import com.acciojob.AccioBazaar.RequestDTO.OrderRequestDto;
 import com.acciojob.AccioBazaar.ResponseDTO.OrderResponseDto;
 import com.acciojob.AccioBazaar.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
     ProductRepository productRepository;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    JavaMailSender emailSender;
     @Override
     public OrderResponseDto placeOrder(@RequestBody OrderRequestDto orderRequestDto) throws Exception {
          Customer customer;
@@ -89,6 +93,16 @@ public class OrderServiceImpl implements OrderService {
 
         //prepare response Dto
          OrderResponseDto orderResponseDto = OrderConvertor.orderToOrderResponseDto(item);
+
+        // send an email
+        String text = "Congrats your order with total value "+order.getTotalCost()+" has been placed";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("backendavengers@gmail.com");
+        message.setTo(customer.getEmail());
+        message.setSubject("Order Placed Notification");
+        message.setText(text);
+        emailSender.send(message);
 
          return orderResponseDto;
      }

@@ -12,6 +12,8 @@ import com.acciojob.AccioBazaar.ResponseDTO.OrderResponseDto;
 import com.acciojob.AccioBazaar.Service.CartService;
 import com.acciojob.AccioBazaar.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class CartServiceImpl implements CartService {
     @Autowired
     ProductRepository productRepository;
     @Autowired
-    OrderService orderService;
+    JavaMailSender emailSender;
     @Override
     public String addToCart(OrderRequestDto orderRequestDto) throws Exception {
         Customer customer;
@@ -60,7 +62,7 @@ public class CartServiceImpl implements CartService {
 
          customerRepository.save(customer);
 
-         return "Item has been added..!";
+         return "Item has been added to your cart..!";
 
     }
 
@@ -98,6 +100,7 @@ public class CartServiceImpl implements CartService {
 
             customer.getOrderedList().add(order);
 
+            //prepare response dto
             OrderResponseDto orderResponseDto = OrderConvertor.orderToOrderResponseDto(item);
 
             orderResponseDtos.add(orderResponseDto);
@@ -106,6 +109,17 @@ public class CartServiceImpl implements CartService {
         cart.setItemList(new ArrayList<>());
         cart.setCartTotal(0);
         customerRepository.save(customer);
+
+        //sending mail
+        String text = "Congrats your order with total value "+totalCost+" has been placed";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("backendavengers@gmail.com");
+        message.setTo(customer.getEmail());
+        message.setSubject("Order Placed from China Market");
+        message.setText(text);
+        emailSender.send(message);
+
 
         return orderResponseDtos;
     }
